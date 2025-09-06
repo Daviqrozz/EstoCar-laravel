@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -29,19 +32,51 @@ class AuthController extends Controller
          return response()->json([
              'Usuario' => $user,
              'Token' => $token,
-             201
-         ]);
+             
+         ],201);
 
     }
     
     public function login(Request $request){
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6'
+        ]);
 
+        if(FacadesAuth::attempt($validated)){
+            $user = User::where('email',$validated['email'])->FirstOrFail();
+
+            $token = $user->createToken('login-token',['post:read','post:create'])->plainTextToken;
+
+            return response()->json([
+             'msg' => "Usuario Logado",
+             'Email' => $validated['email'],
+             'Token' => $token,
+            ],200);
+        }
         
+        return response()->json([
+            'msg' => 'Credenciais invalidas',401
+        ]);
     }
 
-    public function logout(){
-
-    }
-
+    public function logout(Request $request){
+        $token = $request->bearerToken();
     
+        if(!$token){
+            return response()->json(['Token nao informado'],401);
+        }
+
+
+        $acess_token = PersonalAccessToken::findToken($token);
+
+        if(!$acess_token){
+            return response()->json(['Token invalido'],401);
+        }
+
+        $acess_token->delete();
+
+        return response()->json(['Logout realizado!']);
+
+}
 }
