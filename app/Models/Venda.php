@@ -14,7 +14,7 @@ class Venda extends Model
         return $this->belongsTo(Carro::class);
     }
 
-    public function usuario(){
+    public function user(){
         return $this->belongsTo(User::class); 
     }
 }
