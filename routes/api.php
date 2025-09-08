@@ -14,7 +14,7 @@ Route::prefix('/auth')->group(function(){
 
 Route::prefix('/lista')->group(function(){
     Route::get('/carros',[CarroController::class,'index']);
-    Route::get('/carros/{id}',[CarroController::class,'show']);
+    Route::get('/carros/{carro}',[CarroController::class,'show']);
 });
 
 Route::prefix('/carros')->group(function(){

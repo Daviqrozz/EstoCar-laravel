@@ -24,15 +24,17 @@ class CarroController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+   public function show(Carro $carro)
     {
-        
+        return response()->json([
+            "Carro" => $carro
+        ]);
     }
 
     /**
