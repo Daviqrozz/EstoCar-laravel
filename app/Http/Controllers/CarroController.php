@@ -40,9 +40,36 @@ class CarroController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Carro $carro)
     {
-        //
+        $validated = $request->validate([
+            'marca' => 'nullable|string',
+            'modelo' => 'nullable|string',
+            'cor' => 'nullable|string',
+            'ano' => 'nullable|integer',
+            'preco' => 'nullable|numeric',
+            'status' => 'nullable'
+        ]);
+
+        $carro->fill($validated);
+        
+        if($carro->isDirty()){
+        $changes = $carro->getChanges();   
+
+            $carro->save();
+
+            return response()->json([
+                'message' => 'Carro atualizado com sucesso!',
+                'Carro' => $carro,
+                'Mudanças' => $changes
+            ]);
+
+        } else {
+            return response()->json([
+                'msg' => 'Nenhuma alteração foi detectada',
+                'Carro' => $carro,
+            ]);
+        }
     }
 
     /**

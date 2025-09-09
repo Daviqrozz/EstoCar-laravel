@@ -17,8 +17,12 @@ Route::prefix('/lista')->group(function(){
     Route::get('/carros/{carro}',[CarroController::class,'show']);
 });
 
-Route::prefix('/carros')->group(function(){
-    Route::get('/criar',[CarroController::class,'store']);
+Route::prefix('/editar')->group(function(){
+    Route::put('/carro/{carro}',[CarroController::class,'update']);
+});
+
+Route::prefix('/criar')->group(function(){
+    Route::get('/carro',[CarroController::class,'store']);
 });
 
 Route::get('/user', function (Request $request) {
