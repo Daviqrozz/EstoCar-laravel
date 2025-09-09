@@ -98,7 +98,7 @@ class CarroController extends Controller
      */
     public function destroy(Carro $carro)
     {
-        $carro = Carro::deleted($carro);
+        $carro->delete();
 
         return response()->json([
             'msg' => 'Carro deletado com sucesso'
