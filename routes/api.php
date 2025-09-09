@@ -22,7 +22,10 @@ Route::prefix('/editar')->group(function(){
 });
 
 Route::prefix('/criar')->group(function(){
-    Route::get('/carro',[CarroController::class,'store']);
+    Route::post('/carro',[CarroController::class,'store']);
+});
+Route::prefix('/deletar')->group(function(){
+    Route::delete('/carro/{carro}',[CarroController::class,'destroy']);
 });
 
 Route::get('/user', function (Request $request) {

@@ -24,7 +24,28 @@ class CarroController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $validated = $request->validate([
+            'marca' => 'required|string',
+            'modelo' => 'required|string',
+            'cor' => 'required|string',
+            'ano' => 'required|integer',
+            'preco' => 'required|numeric',
+            'status' => 'required'
+        ]);
+
+        if(!$validated){
+            return response()->json([
+                'msg' => 'Preencha os dados do veiculo'
+            ]);
+        }
+
+        $carro = Carro::create($validated);
+
+        return response()->json([
+                'message' => 'Carro criado com sucesso!',
+                'Carro' => $carro,
+        ]);
+
     }
 
     /**
@@ -75,8 +96,12 @@ class CarroController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Carro $carro)
     {
-        //
+        $carro = Carro::deleted($carro);
+
+        return response()->json([
+            'msg' => 'Carro deletado com sucesso'
+        ]);
     }
 }
