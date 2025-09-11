@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarroController;
+use App\Http\Controllers\ClienteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,18 +16,24 @@ Route::prefix('/auth')->group(function(){
 Route::prefix('/lista')->group(function(){
     Route::get('/carros',[CarroController::class,'index']);
     Route::get('/carros/{carro}',[CarroController::class,'show']);
+    Route::get('/clientes',[ClienteController::class,'index']);
+    Route::get('/clientes/{cliente}',[ClienteController::class,'show']);
 });
 
 Route::prefix('/editar')->group(function(){
-    Route::put('/carro/{carro}',[CarroController::class,'update']);
+    Route::put('/carros/{carro}',[CarroController::class,'update']);
+    Route::put('/clientes/{cliente}',[ClienteController::class,'update']);
 });
 
 Route::prefix('/criar')->group(function(){
-    Route::post('/carro',[CarroController::class,'store']);
+    Route::post('/carros',[CarroController::class,'store']);
+    Route::post('/clientes',[ClienteController::class,'store']);
+    
 });
 
 Route::prefix('/deletar')->group(function(){
-    Route::delete('/carro/{carro}',[CarroController::class,'destroy']);
+    Route::delete('/carros/{carro}',[CarroController::class,'destroy']);
+    Route::delete('/clientes/{cliente}',[ClienteController::class,'destroy']);
 });
 
 Route::get('/user', function (Request $request) {

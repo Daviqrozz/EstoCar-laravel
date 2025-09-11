@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Carro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CarroController extends Controller
 {
@@ -32,12 +33,6 @@ class CarroController extends Controller
             'preco' => 'required|numeric',
             'status' => 'required'
         ]);
-
-        if(!$validated){
-            return response()->json([
-                'msg' => 'Preencha os dados do veiculo'
-            ]);
-        }
 
         $carro = Carro::create($validated);
 
@@ -98,6 +93,10 @@ class CarroController extends Controller
      */
     public function destroy(Carro $carro)
     {
+        
+        if (Auth::user()->role !== 'admin') {
+        return response()->json(['message' => 'Acesso negado'], 403);
+        }
         $carro->delete();
 
         return response()->json([
