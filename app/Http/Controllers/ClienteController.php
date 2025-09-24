@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class ClienteController extends Controller
@@ -12,7 +13,11 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        
+        $clientes = Cliente::all();
+
+        return response()->json([
+            'Clientes' => $clientes
+        ]);
 
     }
 
@@ -40,9 +45,11 @@ class ClienteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Cliente $cliente)
     {
-        //
+        return response()->json([
+            'Cliente' => $cliente
+        ]);
     }
 
     /**
