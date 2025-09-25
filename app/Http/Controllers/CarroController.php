@@ -70,6 +70,7 @@ class CarroController extends Controller
         $carro->fill($validated);
         
         if($carro->isDirty()){
+        //--!!Metodo nao armazenando--!!//    
         $changes = $carro->getChanges();   
 
             $carro->save();
@@ -94,9 +95,6 @@ class CarroController extends Controller
     public function destroy(Carro $carro)
     {
         
-        if (Auth::user()->role !== 'admin') {
-        return response()->json(['message' => 'Acesso negado'], 403);
-        }
         $carro->delete();
 
         return response()->json([

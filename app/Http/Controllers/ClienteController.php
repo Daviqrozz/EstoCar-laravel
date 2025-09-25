@@ -55,16 +55,50 @@ class ClienteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Cliente $cliente)
     {
-        //
+         //Validação
+         $validated = $request->validate([
+            'nome' => 'nullable|string',
+            'cpf' => 'nullable|string',
+            'telefone' => 'nullable|string',
+            'email' => 'nullable|string',
+            'endereco' => 'nullable|string',
+        ]);
+        //$cliente sera preenchido com os dados de $validated
+        $cliente->fill($validated);
+        //Verifica se $cliente houve alteração
+        if($cliente->isDirty()){
+        //armazena as mudanças no $changes
+        
+        //--!!Metodo nao armazenando--!!//
+        $changes = $cliente->getChanges();   
+            //salva o cliente
+            $cliente->save();
+
+            return response()->json([
+                'message' => 'Cliente atualizado com sucesso!',
+                'Ciente' => $cliente,
+                'Mudanças' => $changes
+            ]);
+
+        } else {
+            return response()->json([
+                'msg' => 'Nenhuma alteração foi detectada',
+                'Ciente' => $cliente,
+            ]);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Cliente $cliente)
     {
-        //
+        $cliente->delete();
+
+         return response()->json([
+            'msg' => 'Cliente deletado com sucesso'
+        ]);
     }
 }
