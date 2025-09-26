@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Venda extends Model
 {
+    protected $fillable = [
+
+    ];
+
    public function cliente(){
         return $this->belongsTo(Cliente::class);
     }
