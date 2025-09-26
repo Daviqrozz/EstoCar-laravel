@@ -50,7 +50,8 @@ class User extends Authenticatable
     public function cargos(){
         return $this->belongsToMany(Cargo::class);
     }
-     public function vendas(){
+    public function vendas(){
         return $this->hasMany(Venda::class);
     }
+    
 }

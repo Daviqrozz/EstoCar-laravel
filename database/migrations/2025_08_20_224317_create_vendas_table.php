@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('carro_id')->constrained('carros')->cascadeOnDelete();
             $table->dateTime('data_venda');
             $table->decimal('valor_venda',10,2);
+            $table->integer('status')->default(0); 
             $table->timestamps();
         });
     }

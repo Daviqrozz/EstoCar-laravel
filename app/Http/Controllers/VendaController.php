@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Venda;
 use Illuminate\Http\Request;
 
 class VendaController
@@ -11,7 +12,11 @@ class VendaController
      */
     public function index()
     {
-        //
+        $vendas = Venda::all();
+
+        return response()->json([
+            "Vendas" => $vendas
+        ]);
     }
 
     /**
@@ -19,7 +24,7 @@ class VendaController
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
