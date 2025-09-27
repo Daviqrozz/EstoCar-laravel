@@ -55,15 +55,17 @@ class VendaController
     
     }
 
-    public function show(string $id)
+    public function show(Venda $venda)
     {
-        //
+        return response()->json([
+            'Venda' => $venda
+        ]);
     }
 
   
     public function update(Request $request, string $id)
     {
-        //
+        
     }
 
  
