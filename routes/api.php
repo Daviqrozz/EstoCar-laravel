@@ -24,9 +24,9 @@ Route::prefix('/lista')->group(function(){
 });
 
 Route::prefix('/editar')->group(function(){
-    Route::put('/carros/{carro}',[CarroController::class,'update']);
-    Route::put('/clientes/{cliente}',[ClienteController::class,'update']);
-    Route::put('/vendas/{venda}',[VendaController::class,'update']);
+    Route::put('/carro/{carro}',[CarroController::class,'update']);
+    Route::put('/cliente/{cliente}',[ClienteController::class,'update']);
+    Route::put('/venda/{venda}',[VendaController::class,'update']);
 });
 
 Route::prefix('/criar')->group(function(){

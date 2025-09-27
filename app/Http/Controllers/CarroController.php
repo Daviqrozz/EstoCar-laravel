@@ -76,7 +76,7 @@ class CarroController extends Controller
         $carro->fill($validated);
         
         if($carro->isDirty()){
-        //--!!Metodo nao armazenando--!!//    
+       /*att:Nao retornando mudanças*/   
         $changes = $carro->getChanges();   
 
             $carro->save();
@@ -89,7 +89,7 @@ class CarroController extends Controller
 
         } else {
             return response()->json([
-                'msg' => 'Nenhuma alteração foi detectada',
+                'message' => 'Nenhuma alteração foi detectada',
                 'Carro' => $carro,
             ]);
         }

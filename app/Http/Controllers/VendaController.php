@@ -28,12 +28,10 @@ class VendaController
             'valor_venda' => 'required|numeric',
         ]);
 
-     
-
         $carro = Carro::findOrFail($validated['carro_id']);
         if($carro->status == 0 ){
             return response()->json([
-                'msg' => 'Este carro ja foi vendido'
+                'message' => 'Este carro ja foi vendido'
             ],400);
         }
 
@@ -49,7 +47,7 @@ class VendaController
         
         $carro->update(['status' => 0]);
         return response()->json([
-            'msg' => 'Venda realizada com sucesso',
+            'message' => 'Venda realizada com sucesso',
             'venda' => $venda
         ],201);
     
@@ -58,19 +56,44 @@ class VendaController
     public function show(Venda $venda)
     {
         return response()->json([
-            'Venda' => $venda
+            'venda' => $venda
         ]);
     }
 
   
-    public function update(Request $request, string $id)
+    public function update(Request $request, Venda $venda)
     {
-        
+        $validated = $request->validate([
+            'valor_venda' => 'nullable|numeric',
+            'status' => 'nullable|integer|in:0,1,2'
+        ]);
+
+        $venda->fill($validated);
+
+        if($venda->isDirty()){
+            /*att:nao armazenando mudanças*/
+            $changes = $venda->getChanges();
+
+            $venda->save();
+
+            return response()->json([
+                'message' => 'Venda atualizada com sucesso',
+                'Venda' => $venda,
+                'Mudanças' => $changes
+            ]);
+        }
+
+        response()->json([
+            'message' => 'Nenhuma alteração detectada'
+        ]);
     }
 
  
-    public function destroy(string $id)
+    public function destroy(Venda $venda)
     {
-        //
+        $venda->delete;
+        return response()->json([
+            'message' => 'Venda deletada com sucesso'
+        ]);
     }
 }
