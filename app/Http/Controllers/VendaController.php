@@ -78,12 +78,12 @@ class VendaController
 
             return response()->json([
                 'message' => 'Venda atualizada com sucesso',
-                'Venda' => $venda,
-                'Mudanças' => $changes
+                'venda' => $venda,
+                'mudanças' => $changes
             ]);
         }
 
-        response()->json([
+        return response()->json([
             'message' => 'Nenhuma alteração detectada'
         ]);
     }
@@ -91,7 +91,7 @@ class VendaController
  
     public function destroy(Venda $venda)
     {
-        $venda->delete;
+        $venda->delete();
         return response()->json([
             'message' => 'Venda deletada com sucesso'
         ]);
