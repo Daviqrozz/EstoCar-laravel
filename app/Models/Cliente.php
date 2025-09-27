@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cliente extends Model
 {
+    /*Att:
+    -Adicionar Id do usuario que criou o cliente*/
         protected $fillable = [
         'nome',
         'cpf',

@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Carro extends Model
 
 {
+     /*Att:
+    -Adicionar Id do usuario que criou o carro*/
     protected $fillable = [
         'ano',
         'cor',
         'marca',
         'preco',
-        'status',
+        'status', //0->Vendido/1-Disponivel
         'modelo'
     ];
     use HasFactory;

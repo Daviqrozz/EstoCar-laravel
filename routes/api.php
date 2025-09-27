@@ -32,7 +32,7 @@ Route::prefix('/editar')->group(function(){
 Route::prefix('/criar')->group(function(){
     Route::post('/carros',[CarroController::class,'store']);
     Route::post('/clientes',[ClienteController::class,'store']);
-    Route::post('/Venda',[VendaController::class,'store']);
+    Route::post('/vendas',[VendaController::class,'store']);
 });
 
 Route::prefix('/deletar')->group(function(){

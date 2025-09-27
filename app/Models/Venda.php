@@ -13,6 +13,7 @@ class Venda extends Model
         'data_venda',
         'decimal',
         'valor_venda',
+        //0->finalizada/->1-aberta
         'status'
     ];
 

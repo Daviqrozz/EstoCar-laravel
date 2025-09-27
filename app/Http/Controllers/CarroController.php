@@ -31,10 +31,16 @@ class CarroController extends Controller
             'cor' => 'required|string',
             'ano' => 'required|integer',
             'preco' => 'required|numeric',
-            'status' => 'required'
         ]);
 
-        $carro = Carro::create($validated);
+        $carro = Carro::create([
+            'marca' => $validated['marca'],
+            'modelo' => $validated['modelo'],
+            'ano' => $validated['ano'],
+            'cor' => $validated['cor'],
+            'preco' => $validated['preco'],
+            'status' => 1
+        ]);
 
         return response()->json([
                 'message' => 'Carro criado com sucesso!',
