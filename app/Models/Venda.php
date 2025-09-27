@@ -7,7 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Venda extends Model
 {
     protected $fillable = [
-
+        'cliente_id',
+        'usuario_id',
+        'carro_id',
+        'data_venda',
+        'decimal',
+        'valor_venda',
+        'status'
     ];
 
    public function cliente(){

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('ano');
             $table->string('cor');
             $table->decimal('preco',10,2);
+            //0-indisponivel 1-disponivel
             $table->integer('status');
             $table->timestamps();
         });
