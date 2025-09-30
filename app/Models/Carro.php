@@ -15,7 +15,8 @@ class Carro extends Model
         'marca',
         'preco',
         'status', //0->Vendido/1-Disponivel
-        'modelo'
+        'modelo',
+        'usuario_id',
     ];
     use HasFactory;
      public function vendas(){

@@ -34,7 +34,9 @@ class ClienteController extends Controller
             'endereco' => 'required|string'
         ]);
 
-        $cliente = Cliente::create($validated);
+        $validated['usuario_id'] = auth('sanctum')->id();
+        
+        $cliente = Cliente::create($validated,);
 
         return response()->json([
             'msg' => 'Cliente registrado com sucesso',

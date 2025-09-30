@@ -16,6 +16,7 @@ class Cliente extends Model
         'email',
         'telefone',
         'endereco',
+        'usuario_id'
     ];
     
     public function vendas()

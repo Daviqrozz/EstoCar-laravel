@@ -32,7 +32,7 @@ class CarroController extends Controller
             'ano' => 'required|integer',
             'preco' => 'required|numeric',
         ]);
-
+        $validated['usuario_id'] = auth('sanctum')->id();
         $carro = Carro::create([
             'marca' => $validated['marca'],
             'modelo' => $validated['modelo'],
