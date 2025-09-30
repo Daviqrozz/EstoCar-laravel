@@ -54,4 +54,12 @@ class User extends Authenticatable
         return $this->hasMany(Venda::class);
     }
     
+    public function carros() {
+        return $this->HasMany(Carro::class);
+    }
+
+    public function clientes(){
+        return $this->HasMany(Cliente::class);
+    }
+    
 }

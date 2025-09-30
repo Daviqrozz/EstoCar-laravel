@@ -21,4 +21,8 @@ class Carro extends Model
      public function vendas(){
         return $this->hasOne(Venda::class);
     }
+    public function usuario()
+{
+    return $this->belongsTo(User::class, 'usuario_id');
+}
 }

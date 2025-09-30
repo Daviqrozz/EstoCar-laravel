@@ -7,8 +7,12 @@ use App\Http\Controllers\VendaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
 
 Route::prefix('/auth')->group(function(){
+    /*att:Adicionar edit/delete*/
     Route::post('/register',[AuthController::class,'register']);
     Route::post('/login',[AuthController::class,'login']);
     Route::post('/logout',[AuthController::class,'logout']);
@@ -30,9 +34,9 @@ Route::prefix('/editar')->group(function(){
 });
 
 Route::prefix('/criar')->group(function(){
-    Route::post('/carros',[CarroController::class,'store']);
-    Route::post('/clientes',[ClienteController::class,'store']);
-    Route::post('/vendas',[VendaController::class,'store']);
+    Route::post('/carro',[CarroController::class,'store']);
+    Route::post('/cliente',[ClienteController::class,'store']);
+    Route::post('/venda',[VendaController::class,'store']);
 });
 
 Route::prefix('/deletar')->group(function(){
@@ -40,6 +44,3 @@ Route::prefix('/deletar')->group(function(){
     Route::delete('/clientes/{cliente}',[ClienteController::class,'destroy']);
 });
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');

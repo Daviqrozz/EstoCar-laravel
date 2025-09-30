@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('modelo',100);
             $table->integer('ano');
             $table->string('cor');
+            $table->foreignId('usuario_id')->constrained('users')->cascadeOnDelete();
             $table->decimal('preco',10,2);
             $table->integer('status')->nullable();
             $table->timestamps();

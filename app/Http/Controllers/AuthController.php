@@ -16,8 +16,7 @@ class AuthController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|min:3|max:100',
             'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'required|string|min:8',
-
+            'password' => 'required|string',
         ]);
 
         $user = User::create([
@@ -40,7 +39,7 @@ class AuthController extends Controller
     public function login(Request $request){
         $validated = $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:6'
+            'password' => 'required'
         ]);
 
         if(FacadesAuth::attempt($validated)){

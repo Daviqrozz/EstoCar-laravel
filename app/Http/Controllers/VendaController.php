@@ -37,8 +37,8 @@ class VendaController
 
         $venda = Venda::create([
         'cliente_id'  => $validated['cliente_id'],
-        //'usuario_id'  => auth('sanctum')->id(), // automático pelo usuário logado
-        /*Debug*/ 'usuario_id' => 1,
+        'usuario_id'  => auth('sanctum')->id(), // usuário logado
+        /*Debug 'usuario_id' => 1,*/
         'carro_id'    => $validated['carro_id'],
         'valor_venda' => $validated['valor_venda'],
         'status'      => 0,
