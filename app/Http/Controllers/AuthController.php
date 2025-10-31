@@ -29,9 +29,8 @@ class AuthController extends Controller
         
 
          return response()->json([
-             'Usuario' => $user,
-             'Token' => $token,
-             
+             'user' => $user,
+             'token' => $token,
          ],201);
 
     }
@@ -50,13 +49,14 @@ class AuthController extends Controller
             return response()->json([
              'msg' => "Usuario Logado",
              'Email' => $validated['email'],
-             'Token' => $token,
+             'token' => $token,
             ],200);
         }
         
         return response()->json([
-            'msg' => 'Credenciais invalidas',401
-        ]);
+            'msg' => 'Credenciais invalidas'],
+            401
+        );
     }
 
     public function logout(Request $request){

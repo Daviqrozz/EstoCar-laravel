@@ -27,6 +27,7 @@ class CarroFactory extends Factory
             'modelo' => $modelo,
             'ano' => $this->faker->numberBetween(2000, 2025),
             'cor' => $this->faker->randomElement($cores),
+          
             'preco' => $this->faker->randomFloat(2, 20000, 200000),
             'status' => 0, // todos disponíveis inicialmente
         ];

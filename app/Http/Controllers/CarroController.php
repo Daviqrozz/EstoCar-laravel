@@ -16,7 +16,7 @@ class CarroController extends Controller
         $cars = Carro::all();
 
         return response()->json([
-            'Carros' => $cars
+            'carros' => $cars
         ]);
     }
 
@@ -44,7 +44,7 @@ class CarroController extends Controller
 
         return response()->json([
                 'message' => 'Carro criado com sucesso!',
-                'Carro' => $carro,
+                'carro' => $carro,
         ]);
 
     }
@@ -55,7 +55,7 @@ class CarroController extends Controller
    public function show(Carro $carro)
     {
         return response()->json([
-            "Carro" => $carro
+            "carro" => $carro
         ]);
     }
 
@@ -83,14 +83,14 @@ class CarroController extends Controller
 
             return response()->json([
                 'message' => 'Carro atualizado com sucesso!',
-                'Carro' => $carro,
-                'Mudanças' => $changes
+                'carro' => $carro,
+                'mudancas' => $changes
             ]);
 
         } else {
             return response()->json([
                 'message' => 'Nenhuma alteração foi detectada',
-                'Carro' => $carro,
+                'carro' => $carro,
             ]);
         }
     }
@@ -104,7 +104,7 @@ class CarroController extends Controller
         $carro->delete();
 
         return response()->json([
-            'msg' => 'Carro deletado com sucesso'
+            'msg' => 'carro deletado com sucesso'
         ]);
     }
 }

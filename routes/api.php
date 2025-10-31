@@ -13,16 +13,8 @@ Route::prefix('/auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
 });
 
-
-
 //Rota protegida
 Route::middleware('auth:sanctum')->group(function () {
-
-    // Rota para obter o usuário logado 
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
-
     // Rota de Logout
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 
