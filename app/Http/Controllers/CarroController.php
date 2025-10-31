@@ -11,14 +11,20 @@ class CarroController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $cars = Carro::all();
+  public function index()
+{
+  
+    $cars = Carro::query()
+        // 1. Prioriza 'status = 1' usando ordenação descendente ('desc')
+        ->orderBy('status', 'desc')
+        // 2. Ordenação secundária para garantir uma ordem estável (usando o ID mais recente)
+        ->orderBy('id', 'desc')
+        ->get();
 
-        return response()->json([
-            'carros' => $cars
-        ]);
-    }
+    return response()->json([
+        'carros' => $cars
+    ]);
+}
 
     /**
      * Store a newly created resource in storage.

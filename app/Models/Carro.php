@@ -14,7 +14,7 @@ class Carro extends Model
         'cor',
         'marca',
         'preco',
-        'status', //0->Vendido/1-Disponivel
+        'status', //0->Indisponivel /1-Disponivel
         'modelo',
         'usuario_id',
     ];
