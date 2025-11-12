@@ -17,7 +17,6 @@ class VendaController
             "Vendas" => $vendas
         ]);
     }
-
  
     public function store(Request $request)
     {
@@ -60,7 +59,6 @@ class VendaController
         ]);
     }
 
-  
     public function update(Request $request, Venda $venda)
     {
         $validated = $request->validate([

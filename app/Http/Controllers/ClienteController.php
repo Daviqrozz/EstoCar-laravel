@@ -16,7 +16,7 @@ class ClienteController extends Controller
         $clientes = Cliente::all();
 
         return response()->json([
-            'Clientes' => $clientes
+            'clientes' => $clientes
         ]);
 
     }
@@ -40,7 +40,7 @@ class ClienteController extends Controller
 
         return response()->json([
             'msg' => 'Cliente registrado com sucesso',
-            'Cliente' => $cliente
+            'cliente' => $cliente
         ]);
     }
 
@@ -50,7 +50,7 @@ class ClienteController extends Controller
     public function show(Cliente $cliente)
     {
         return response()->json([
-            'Cliente' => $cliente
+            'cliente' => $cliente
         ]);
     }
 
@@ -80,14 +80,14 @@ class ClienteController extends Controller
 
             return response()->json([
                 'message' => 'Cliente atualizado com sucesso!',
-                'Ciente' => $cliente,
-                'Mudanças' => $changes
+                'cliente' => $cliente,
+                'mudancas' => $changes
             ]);
 
         } else {
             return response()->json([
                 'msg' => 'Nenhuma alteração foi detectada',
-                'Ciente' => $cliente,
+                'cliente' => $cliente,
             ]);
         }
     }

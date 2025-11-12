@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable,HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -46,20 +46,27 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    public function cargos(){
-        return $this->belongsToMany(Cargo::class);
+    public function cargos()
+    {
+        return $this->belongsToMany(
+            Cargo::class,
+            'cargo_usuario',   // nome da tabela pivot
+            'user_id',      // FK para users
+            'cargo_id'         // FK para cargos
+        )->withTimestamps();
     }
-    public function vendas(){
+    public function vendas()
+    {
         return $this->hasMany(Venda::class);
     }
-    
-    public function carros() {
+
+    public function carros()
+    {
         return $this->HasMany(Carro::class);
     }
 
-    public function clientes(){
+    public function clientes()
+    {
         return $this->HasMany(Cliente::class);
     }
-    
 }

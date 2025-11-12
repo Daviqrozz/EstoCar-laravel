@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreignID('cargo_id')
                 ->constrained('cargos')
                 ->cascadeOnDelete();
-            $table->timestamps();
+            $table->unique(['usuario_id', 'cargo_id']);
         });
     }
 
