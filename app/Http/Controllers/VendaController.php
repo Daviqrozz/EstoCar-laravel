@@ -11,10 +11,10 @@ class VendaController
    
     public function index()
     {
-        $vendas = Venda::all();
+        $vendas = Venda::with(['cliente', 'carro', 'user'])->get();
 
         return response()->json([
-            "Vendas" => $vendas
+            "vendas" => $vendas
         ]);
     }
  
@@ -29,6 +29,7 @@ class VendaController
 
         $carro = Carro::findOrFail($validated['carro_id']);
         if($carro->status == 0 ){
+
             return response()->json([
                 'message' => 'Este carro ja foi vendido'
             ],400);
@@ -36,14 +37,15 @@ class VendaController
 
         $venda = Venda::create([
         'cliente_id'  => $validated['cliente_id'],
-        'usuario_id'  => auth('sanctum')->id(), // usuário logado
-        /*Debug 'usuario_id' => 1,*/
+        'usuario_id'  => auth('sanctum')->id(),
         'carro_id'    => $validated['carro_id'],
         'valor_venda' => $validated['valor_venda'],
-        'status'      => 0,
+        'status'      => 1,
         'data_venda'  => now(),
         ]);
-        
+
+        $venda->load(['cliente', 'carro']);
+
         $carro->update(['status' => 0]);
         return response()->json([
             'message' => 'Venda realizada com sucesso',
@@ -54,6 +56,9 @@ class VendaController
 
     public function show(Venda $venda)
     {
+
+        $venda->load(['cliente', 'carro', 'user']);
+        
         return response()->json([
             'venda' => $venda
         ]);
@@ -70,6 +75,10 @@ class VendaController
 
         if($venda->isDirty()){
             /*att:nao armazenando mudanças*/
+            if($venda->isDirty('status') && $venda->status == 2){
+                $venda->carro->update(['status' => 1]);
+            }
+
             $changes = $venda->getChanges();
 
             $venda->save();
@@ -77,7 +86,7 @@ class VendaController
             return response()->json([
                 'message' => 'Venda atualizada com sucesso',
                 'venda' => $venda,
-                'mudanças' => $changes
+                'mudancas' => $changes
             ]);
         }
 
@@ -89,7 +98,12 @@ class VendaController
  
     public function destroy(Venda $venda)
     {
+        $carro = $venda->carro;
+        
         $venda->delete();
+
+        $carro->update(['status' => 1]);
+
         return response()->json([
             'message' => 'Venda deletada com sucesso'
         ]);
