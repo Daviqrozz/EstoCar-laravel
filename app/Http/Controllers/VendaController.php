@@ -44,7 +44,7 @@ class VendaController
         'data_venda'  => now(),
         ]);
 
-        $venda->load(['cliente', 'carro']);
+        $venda->load(['cliente', 'carro','user']);
 
         $carro->update(['status' => 0]);
         return response()->json([

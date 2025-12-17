@@ -1,0 +1,363 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "EstoCar API",
+    "version": "1.0.0",
+    "description": "API de gerenciamento de estoque de veículos (EstoCar)"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000/api",
+      "description": "Desenvolvimento"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "password": { "type": "string", "format": "password" }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "msg": { "type": "string" },
+          "Email": { "type": "string" },
+          "token": { "type": "string" }
+        }
+      },
+      "Cliente": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "nome": { "type": "string" },
+          "cpf": { "type": "string" },
+          "telefone": { "type": "string", "nullable": true },
+          "email": { "type": "string", "nullable": true },
+          "endereco": { "type": "string", "nullable": true }
+        }
+      },
+      "Carro": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "marca": { "type": "string" },
+          "modelo": { "type": "string" },
+          "ano": { "type": "integer" },
+          "cor": { "type": "string" },
+          "preco": { "type": "number", "format": "float" },
+          "status": { "type": "integer", "description": "1=disponível, 0=vendido" },
+          "usuario_id": { "type": "integer" }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" },
+          "email": { "type": "string" }
+        }
+      },
+      "Venda": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "cliente_id": { "type": "integer" },
+          "usuario_id": { "type": "integer" },
+          "carro_id": { "type": "integer" },
+          "data_venda": { "type": "string", "format": "date-time" },
+          "valor_venda": { "type": "number", "format": "float" },
+          "status": {
+            "type": "integer",
+            "description": "0=rascunho,1=concluída,2=cancelada"
+          },
+          "cliente": { "$ref": "#/components/schemas/Cliente" },
+          "carro": { "$ref": "#/components/schemas/Carro" },
+          "user": { "$ref": "#/components/schemas/User" }
+        }
+      },
+      "CreateVendaRequest": {
+        "type": "object",
+        "required": ["cliente_id", "carro_id", "valor_venda"],
+        "properties": {
+          "cliente_id": { "type": "integer" },
+          "carro_id": { "type": "integer" },
+          "valor_venda": { "type": "number", "format": "float", "minimum": 0 }
+        }
+      },
+      "UpdateVendaRequest": {
+        "type": "object",
+        "properties": {
+          "valor_venda": { "type": "number", "format": "float", "minimum": 0 },
+          "status": {
+            "type": "integer",
+            "enum": [0, 1, 2]
+          }
+        }
+      },
+      "MessageResponse": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string" }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login do usuário",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login realizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/LoginResponse" }
+              }
+            }
+          },
+          "401": { "description": "Credenciais inválidas" }
+        }
+      }
+    },
+    "/lista/clientes": {
+      "get": {
+        "tags": ["Clientes"],
+        "summary": "Listar clientes",
+        "responses": {
+          "200": {
+            "description": "Lista de clientes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "clientes": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Cliente" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lista/carros": {
+      "get": {
+        "tags": ["Carros"],
+        "summary": "Listar carros",
+        "responses": {
+          "200": {
+            "description": "Lista de carros",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "carros": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Carro" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lista/vendas": {
+      "get": {
+        "tags": ["Vendas"],
+        "summary": "Listar vendas",
+        "responses": {
+          "200": {
+            "description": "Lista de vendas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "vendas": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Venda" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lista/vendas/{id}": {
+      "get": {
+        "tags": ["Vendas"],
+        "summary": "Detalhar venda",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes da venda",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "venda": { "$ref": "#/components/schemas/Venda" }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Venda não encontrada" }
+        }
+      }
+    },
+    "/criar/venda": {
+      "post": {
+        "tags": ["Vendas"],
+        "summary": "Criar venda",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateVendaRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Venda criada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "venda": { "$ref": "#/components/schemas/Venda" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Carro já vendido ou erro de regra de negócio",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/MessageResponse" }
+              }
+            }
+          },
+          "422": { "description": "Erro de validação" }
+        }
+      }
+    },
+    "/editar/venda/{id}": {
+      "put": {
+        "tags": ["Vendas"],
+        "summary": "Atualizar venda",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateVendaRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Venda atualizada ou nenhuma alteração",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": { "type": "string" },
+                        "venda": { "$ref": "#/components/schemas/Venda" },
+                        "mudancas": {
+                          "type": "object",
+                          "additionalProperties": true
+                        }
+                      }
+                    },
+                    { "$ref": "#/components/schemas/MessageResponse" }
+                  ]
+                }
+              }
+            }
+          },
+          "404": { "description": "Venda não encontrada" },
+          "422": { "description": "Erro de validação" }
+        }
+      }
+    },
+    "/deletar/venda/{id}": {
+      "delete": {
+        "tags": ["Vendas"],
+        "summary": "Deletar venda",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Venda deletada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/MessageResponse" }
+              }
+            }
+          },
+          "404": { "description": "Venda não encontrada" }
+        }
+      }
+    }
+  }
+}
