@@ -19,6 +19,13 @@ Route::middleware('auth:sanctum')->group(function () {
     // Rota de Logout
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 
+    Route::get('/me',function (Request $request) {
+        return response()->json([
+            'success' => true,
+            'user' => $request->user()
+        ]);
+    });
+
     // Rotas de Leitura 
     Route::prefix('/lista')->group(function () {
         Route::get('/carros', [CarroController::class, 'index']);
