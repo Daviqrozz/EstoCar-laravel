@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('usuario_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('carro_id')->constrained('carros')->cascadeOnDelete();
             $table->dateTime('data_venda')->useCurrent();
-            $table->decimal('valor_venda',10,2);
-            $table->integer('status')->default(0); 
+            $table->decimal('valor_venda', 10, 2);
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
