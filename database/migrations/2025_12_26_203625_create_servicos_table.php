@@ -33,7 +33,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('ordem_servico_id')
                 ->constrained('ordens_servico')
-                ->cascadeOnDelete();
+                ->cascadeOnDelete();\
             $table->foreignId('servico_id')
                 ->constrained('servicos')
                 ->cascadeOnDelete();
@@ -41,9 +41,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('ordem_servico_registros');

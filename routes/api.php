@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarroController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\OrdemServicoController;
+use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendaController;
 use Illuminate\Http\Request;
@@ -19,7 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Rota de Logout
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 
-    Route::get('/me',function (Request $request) {
+    Route::get('/me', function (Request $request) {
         return response()->json([
             'success' => true,
             'user' => $request->user()
@@ -36,6 +38,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/vendas/{venda}', [VendaController::class, 'show']);
         Route::get('/users', [UserController::class, 'index']);
         Route::get('/users/{user}', [UserController::class, 'show']);
+        Route::get('/servicos', [ServicoController::class, 'index']);
+        Route::get('/servicos/{servico}', [ServicoController::class, 'show']);
+        Route::get('/ordens-servico', [OrdemServicoController::class, 'index']);
+        Route::get('/ordens-servico/{ordemServico}', [OrdemServicoController::class, 'show']);
     });
 
     // Rotas de Criação
@@ -44,6 +50,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/cliente', [ClienteController::class, 'store']);
         Route::post('/venda', [VendaController::class, 'store']);
         Route::post('/usuario', [UserController::class, 'store']);
+        Route::post('/servico', [ServicoController::class, 'store']);
+        Route::post('/ordem-servico', [OrdemServicoController::class, 'store']);
     });
 
     // Rotas de Edição
@@ -52,7 +60,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/cliente/{cliente}', [ClienteController::class, 'update']);
         Route::put('/venda/{venda}', [VendaController::class, 'update']);
         Route::put('/usuario/{user}', [UserController::class, 'update']);
-
+        Route::put('/servico/{servico}', [ServicoController::class, 'update']);
+        Route::put('/ordem-servico/{ordemServico}', [OrdemServicoController::class, 'update']);
     });
 
     // Rotas de Deleção
@@ -61,5 +70,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/cliente/{cliente}', [ClienteController::class, 'destroy']);
         Route::delete('/venda/{venda}', [VendaController::class, 'destroy']);
         Route::delete('/usuario/{user}', [UserController::class, 'destroy']);
+        Route::delete('/servico/{servico}', [ServicoController::class, 'destroy']);
+        Route::delete('/ordem-servico/{ordemServico}', [OrdemServicoController::class, 'destroy']);
     });
 });
