@@ -13,11 +13,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('cargos')->get();
-
-        return response()->json([
-            'users' => $users
-        ]);
+        return response()->json(User::all());
     }
 
     /**

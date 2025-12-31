@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('cliente_id')->constrained('clientes')->cascadeOnDelete();
             $table->foreignId('usuario_id')->constrained('users')->cascadeOnDelete();
             $table->char('descricao', 300);
+            //0 = ABERTA / 1 = EM ANDAMENTO / 2 CONCLUIDO / 3 CANCELADA
             $table->integer('status')->default(0);
             $table->dateTime('data_abertura')->useCurrent();
             $table->decimal('valor_total', 10, 2)->nullable();

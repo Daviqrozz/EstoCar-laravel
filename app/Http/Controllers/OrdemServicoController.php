@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carro;
+use App\Models\Cliente;
 use App\Models\OrdemServico;
 use App\Models\OrdemServicoRegistro;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ class OrdemServicoController extends Controller
 {
     public function index()
     {
-        $ordens = OrdemServico::with(['cliente', 'carro', 'usuario', 'registros.servico'])->get();
+        $ordens = OrdemServico::with(['cliente', 'carro', 'user', 'registros.servico'])->get();
 
         return response()->json([
             'ordens_servico' => $ordens,
@@ -23,31 +24,32 @@ class OrdemServicoController extends Controller
         $validated = $request->validate([
             'cliente_id' => 'required|exists:clientes,id',
             'carro_id'   => 'required|exists:carros,id',
+            'status' => 'nullable|integer',
             'descricao'  => 'required|string|max:300',
-            'servicos'   => 'required|array|min:1',
-            'servicos.*.servico_id' => 'required|exists:servicos,id',
+            'servico_id' => 'required|exists:servicos,id',
+            'valor_total' => 'nullable|numeric'
         ]);
 
         $carro = Carro::findOrFail($validated['carro_id']);
+        
+        $cliente = Cliente::findOrFail($validated['cliente_id']);
 
         $ordem = OrdemServico::create([
             'cliente_id'    => $validated['cliente_id'],
             'carro_id'      => $validated['carro_id'],
             'usuario_id'    => auth('sanctum')->id(),
             'descricao'     => $validated['descricao'],
-            'status'        => 0,
+            'status'        => $validated['status'],
             'data_abertura' => now(),
-            'valor_total'   => null,
+            'valor_total'   => $validated['valor_total'] ?? 0,
         ]);
 
-        foreach ($validated['servicos'] as $item) {
-            OrdemServicoRegistro::create([
-                'ordem_servico_id' => $ordem->id,
-                'servico_id'       => $item['servico_id'],
-            ]);
-        }
+        OrdemServicoRegistro::create([
+            'ordem_servico_id' => $ordem->id,
+            'servico_id'       => $validated['servico_id'],
+        ]);
 
-        $ordem->load(['cliente', 'carro', 'usuario', 'registros.servico']);
+        $ordem->load(['cliente', 'carro', 'user', 'registros.servico']);
 
         return response()->json([
             'message' => 'Ordem de serviço criada com sucesso',
@@ -57,7 +59,7 @@ class OrdemServicoController extends Controller
 
     public function show(OrdemServico $ordemServico)
     {
-        $ordemServico->load(['cliente', 'carro', 'usuario', 'registros.servico']);
+        $ordemServico->load(['cliente', 'carro', 'user', 'registros.servico']);
 
         return response()->json([
             'ordem_servico' => $ordemServico,
